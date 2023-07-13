@@ -2,11 +2,11 @@ import {types, Instance, SnapshotIn, onSnapshot, destroy, applySnapshot } from "
 import React from "react";
 import { useState } from 'react';
 
-const [ id, setId ] = useState("");
-const [ title, setTitle ] = useState("");
-const [ description, setDescription ] = useState("");
-const [ status, setStatus ] = useState("");
-const [ todoStore, setTodoStore ] = useState([]);
+// const [ id, setId ] = useState("");
+// const [ title, setTitle ] = useState("");
+// const [ description, setDescription ] = useState("");
+// const [ status, setStatus ] = useState("");
+const [ store, setStore ] = useState([]);
 
 const TodoModel = types.model("Todo", {
     id: types.identifier,
@@ -48,8 +48,32 @@ const TodoStore = types.model("TodoStore", {
     }
 });
 
+//getting todo from local storage
+if(typeof window !== "undefined"){
+    const response = localStorage.getItem("todoStore");
+    if(response){
+        try{
+            setStore(JSON.parse(response).tasks)
+        } catch (error) {
+            console.log("couldn't parse from localStorage: ", error)
+        }
+    }
+}
+
+//created instance of TodoStore
+export let todoStore = TodoStore.create({
+    todos: store,
+})
+
+// saving the store in local storage 
+if(typeof window !== "undefined"){
+    onSnapshot(todoStore, (snapshot) => {
+        localStorage.setItem("todoStore", JSON.stringify(snapshot))
+    })
+}
+
 const RootModel = types.model("Root", {
-    todo: TodoModel
+    TodoStore: TodoStore
 })
 
 export { RootModel };

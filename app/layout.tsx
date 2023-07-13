@@ -1,5 +1,5 @@
 import React from 'react'
-// import { Provider } from "mobx-react-lite";
+import { StoreProvider, newTodoStore } from '@/root/index';
 import './globals.css'
 import type { Metadata } from 'next'
 // import { setupRootStore } from "./mst/setup";
@@ -19,10 +19,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+       <StoreProvider value={newTodoStore}>
       <body className={inter.className}>
+       
+          <main className="container">{children}</main>
         
-        <main className="container">{children}</main>
-        </body>
+      </body>
+      </StoreProvider>
     </html>
   )
 }

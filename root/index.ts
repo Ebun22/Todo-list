@@ -1,21 +1,24 @@
-import {types, Instance, SnapshotIn, onSnapshot, destroy, applySnapshot } from "mobx-state-tree";
+"use client";
+
+import {types, Instance, SnapshotIn, onSnapshot, destroy, applySnapshot, getSnapshot } from "mobx-state-tree";
 import React from "react";
+import { createContext, useContext } from "react";
 import { useState } from 'react';
 
 // const [ id, setId ] = useState("");
 // const [ title, setTitle ] = useState("");
 // const [ description, setDescription ] = useState("");
 // const [ status, setStatus ] = useState("");
-const [ store, setStore ] = useState([]);
+// const [ store, setStore ] = useState([]);
 
-const TodoModel = types.model("Todo", {
+export const TodoModel = types.model("Todo", {
     id: types.identifier,
     title: types.string,
     description: types.string,
     status: types.string,
 });
 
-const TodoStore = types.model("TodoStore", {
+export const TodoStore = types.model("TodoStore", {
     todos: types.optional(types.array(TodoModel), [])
 })
 .actions((self) => {
@@ -49,11 +52,12 @@ const TodoStore = types.model("TodoStore", {
 });
 
 //getting todo from local storage
+let store = [];
 if(typeof window !== "undefined"){
     const response = localStorage.getItem("todoStore");
     if(response){
         try{
-            setStore(JSON.parse(response).tasks)
+            store = JSON.parse(response).tasks
         } catch (error) {
             console.log("couldn't parse from localStorage: ", error)
         }
@@ -61,23 +65,26 @@ if(typeof window !== "undefined"){
 }
 
 //created instance of TodoStore
-export let todoStore = TodoStore.create({
+export let newTodoStore = TodoStore.create({
     todos: store,
 })
 
+//updating the value of todoStore
+if (typeof window !== "undefined") {
+    const initialSnapshot = getSnapshot(newTodoStore);
+    applySnapshot(newTodoStore, initialSnapshot);
+  }
+
 // saving the store in local storage 
 if(typeof window !== "undefined"){
-    onSnapshot(todoStore, (snapshot) => {
+    onSnapshot(newTodoStore, (snapshot) => {
         localStorage.setItem("todoStore", JSON.stringify(snapshot))
     })
 }
 
-const RootModel = types.model("Root", {
-    TodoStore: TodoStore
-})
 
-export { RootModel };
 
-export type Root = Instance<typeof RootModel>;
-export type TodoModel = Instance<typeof TodoModel>;
-export type TodoStore = Instance<typeof TodoStore>;
+const RootStoreContext = createContext<null | Instance<typeof TodoStore>>(newTodoStore)
+export const StoreProvider = RootStoreContext.Provider;
+
+

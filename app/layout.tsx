@@ -1,5 +1,9 @@
+
+
 import React from 'react'
-import { StoreProvider, newTodoStore } from '@/root/index';
+import {types, Instance, SnapshotIn, onSnapshot, destroy, applySnapshot, getSnapshot } from "mobx-state-tree";
+import { newTodoStore, TodoStore } from '@/root/index';
+import StoreProvider from '@/root/Provider';
 import './globals.css'
 import type { Metadata } from 'next'
 // import { setupRootStore } from "./mst/setup";
@@ -19,13 +23,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-       <StoreProvider value={newTodoStore}>
       <body className={inter.className}>
-       
-          <main className="container">{children}</main>
-        
-      </body>
+      
+       <StoreProvider value={newTodoStore }>
+          <main className="container">{children }</main>
       </StoreProvider>
+      </body>
     </html>
   )
 }

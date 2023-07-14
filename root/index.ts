@@ -3,13 +3,7 @@
 import {types, Instance, SnapshotIn, onSnapshot, destroy, applySnapshot, getSnapshot } from "mobx-state-tree";
 import React from "react";
 import { createContext, useContext } from "react";
-import { useState } from 'react';
 
-// const [ id, setId ] = useState("");
-// const [ title, setTitle ] = useState("");
-// const [ description, setDescription ] = useState("");
-// const [ status, setStatus ] = useState("");
-// const [ store, setStore ] = useState([]);
 
 export const TodoModel = types.model("Todo", {
     id: types.identifier,
@@ -52,11 +46,13 @@ export const TodoStore = types.model("TodoStore", {
 });
 
 //getting todo from local storage
-let store = [];
+let store: any = [];
 if(typeof window !== "undefined"){
-    const response = localStorage.getItem("todoStore");
+    const response: any = localStorage.getItem("todoStore");
+    // console.log(JSON.parse(response).tasks)
     if(response){
         try{
+            console.log(JSON.parse(response).tasks)
             store = JSON.parse(response).tasks
         } catch (error) {
             console.log("couldn't parse from localStorage: ", error)
@@ -84,7 +80,8 @@ if(typeof window !== "undefined"){
 
 
 
-const RootStoreContext = createContext<null | Instance<typeof TodoStore>>(newTodoStore)
-export const StoreProvider = RootStoreContext.Provider;
+
+
+// React.Provider<null | Instance<typeof TodoStore>> = RootStoreContext.Provider;
 
 

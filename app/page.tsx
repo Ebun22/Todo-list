@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import {TodoList }from '@/components'
 
 const Home = async () => {
   return (
@@ -11,6 +12,8 @@ const Home = async () => {
           <p>
             All todo tasks
           </p>
+
+          <TodoList />
       </div>
    </div>
   )

@@ -1,5 +1,5 @@
 "use client";
-import {Todo, TodoFilter} from "@/components"
+import {AddTodo, Todo, TodoFilter} from "@/components"
 import { useStore } from "@/root/Provider";
 import { types, Instance } from "mobx-state-tree";
 import { observer } from "mobx-react-lite";
@@ -15,6 +15,7 @@ const TodoList = observer(() => {
                 <h2>
                     All Todos
                 </h2>
+                <AddTodo />
             </div>
 
             <TodoFilter />

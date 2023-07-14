@@ -22,6 +22,7 @@ const options: Option[] = [
 const AddTodo = observer(() => {
     const initial = options.find((value) => value.value);
     // // const { newTodoStore } = useStore();
+   
     // let filteredTodos: Array<Instance<typeof TodoModel>> = newTodoStore.todos;
     const [title, setTitle] = useState<string>("");
     const [description, setDescription] = useState<string>("");

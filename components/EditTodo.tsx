@@ -5,7 +5,7 @@ import { types, Instance } from "mobx-state-tree";
 import { observer } from "mobx-react-lite";
 import { newTodoStore, TodoStore, TodoModel } from '@/root/index';
 
-const TodoList = observer(() => {
+const EditTodo = observer(() => {
     // const { newTodoStore } = useStore();
     let filteredTodos: Array<Instance<typeof TodoModel>> = newTodoStore.todos;
 
@@ -35,4 +35,4 @@ const TodoList = observer(() => {
     )
 })
 
-export default TodoList;
+export default EditTodo;

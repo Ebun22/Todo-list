@@ -20,8 +20,8 @@ export const TodoStore = types.model("TodoStore", {
         addTodo(todo: SnapshotIn<typeof TodoModel> | Instance<typeof TodoModel>)
         {
 
-            applySnapshot(self, {...self, todos: [todo, ...self.todos]})
-
+            applySnapshot(self, {...self, todos: [...self.todos, todo]})
+            // console.log(todo)
         },
         editTodo(id: string, editedTodo: {title: string; description: string; status: string }){
            
@@ -49,11 +49,11 @@ export const TodoStore = types.model("TodoStore", {
 let store: any = [];
 if(typeof window !== "undefined"){
     const response: any = localStorage.getItem("todoStore");
-    // console.log(JSON.parse(response).tasks)
+    console.log(response)
     if(response){
         try{
-            console.log(JSON.parse(response).tasks)
-            store = JSON.parse(response).tasks
+            console.log(JSON.parse(response).todos)
+            store = JSON.parse(response).todos
         } catch (error) {
             console.log("couldn't parse from localStorage: ", error)
         }
@@ -64,10 +64,11 @@ if(typeof window !== "undefined"){
 export let newTodoStore = TodoStore.create({
     todos: store,
 })
-
+console.log(newTodoStore.todos)
 //updating the value of todoStore
 if (typeof window !== "undefined") {
     const initialSnapshot = getSnapshot(newTodoStore);
+    console.log(initialSnapshot)
     applySnapshot(newTodoStore, initialSnapshot);
   }
 

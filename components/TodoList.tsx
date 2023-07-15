@@ -41,9 +41,9 @@ const TodoList = observer(() => {
                 onOpenChange={setAddOpen}
             >
                 <DialogTrigger asChild>
-                    <Button className="bg-neutral-50 w-1/4 py-4 mt-3 drop-shadow-md">
+                    <div className="bg-neutral-50 w-1/4 py-4 mt-3 drop-shadow-md rounded-md text-center">
                         +
-                    </Button>
+                    </div>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-2xl">
                     <AddTodo

@@ -31,6 +31,7 @@ const options: Option[] = [
 
 const EditTodo = observer(({id, title, description, status, open, setOpen }: editProps) => {
   
+    console.log(id)
     let editedTodo
     if(typeof window !== "undefined"){
         const response: any = localStorage.getItem("editedTodo");
@@ -42,17 +43,17 @@ const EditTodo = observer(({id, title, description, status, open, setOpen }: edi
             }
         }
     }
-    console.log("40: ", id)
+
     const [newTitle, setNewTitle] = useState<string>(editedTodo.title);
     const [newDescription, setNewDescription] = useState<string>(editedTodo.description);
     const [newStatus, setNewStatus] = useState<string>(editedTodo.status);
     const [Id, setId] = useState<string>(editedTodo.id);
     const [errMsg, setErrMsg] = useState<string>();
-
-    const [isClient, setIsClient] = useState(false)
  
+   
+     
 
-
+  
     const handleEditTask = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
 
@@ -65,7 +66,8 @@ const EditTodo = observer(({id, title, description, status, open, setOpen }: edi
 
         newTodoStore.editTodo(Id, newTodo)
         setOpen(!open);
-        console.log("id in edit finction: ", Id)
+
+      
     }    
 
     const handleTitle = (e: any) => {
@@ -77,8 +79,7 @@ const EditTodo = observer(({id, title, description, status, open, setOpen }: edi
         console.log(e.target.value);
     }
     const handleStatus = (e: any) => {
-        setNewStatus(e)
-        console.log(e);
+        setNewStatus(e) 
     }
 
     return (

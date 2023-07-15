@@ -24,14 +24,12 @@ const options: Option[] = [
 ];
 
 const AddTodo = observer(({ open, setOpen }: AddProps) => {
-    const initial = options.find((value) => value.value);
-    // // const { newTodoStore } = useStore();
 
-    // let filteredTodos: Array<Instance<typeof TodoModel>> = newTodoStore.todos;
     const [title, setTitle] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [status, setStatus] = useState<Option | null>(options[0]);
     const [errMsg, setErrMsg] = useState<string>();
+
 
     const handleAddTask = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
@@ -44,27 +42,28 @@ const AddTodo = observer(({ open, setOpen }: AddProps) => {
         };
 
         newTodoStore.addTodo(newTodo)
-      
+        setTitle("");
+        setDescription("");
+        setStatus(null);
         setOpen(!open);
-        console.log(newTodoStore)
     }
 
     const handleTitle = (e: any) => {
         setTitle(e.target.value)
-        console.log(e.target.value);
     }
+
     const handleDescription = (e: any) => {
         setDescription(e.target.value)
-        console.log(e.target.value);
     }
+
     const handleStatus = (e: any) => {
         setStatus(e)
-        console.log(e);
     }
+
     return (
                 <form>
                     <div className="grid gap-4 py-4">
-                        <div className="grid grid-cols-4 items-center gap-2">
+                        <div className="grid grid-cols-6 items-center gap-2">
                             <Label htmlFor="title" className="text-left">
                                 Title:
                             </Label>
@@ -73,7 +72,7 @@ const AddTodo = observer(({ open, setOpen }: AddProps) => {
                                 value={title}
                                 onChange={(e) => handleTitle(e)}
                                 placeholder="Title"
-                                className="col-span-3 appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                                className=" w-full text-gray-700 py-6 px-2 leading-tight focus:outline-none"
                             />
                         </div>
                         <div className="grid grid-cols-4 items-center gap-2">

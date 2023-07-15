@@ -25,33 +25,30 @@ const TodoList = observer(() => {
     }
 
 
-    const [open, setOpen] = useState(false);
+    const [addOpen, setAddOpen] = useState(false);
+    const [editOpen, setEditOpen] = useState(false);
 
     const showAdd = () => {
-        setOpen(true)
+        setAddOpen(true)
     }
     return (
         <div className="flex flex-col sm:flex-col gap-4 w-3/4 sm:items-center sm:justify-between mb-8 sm:mb-14">
-            <div>
-                <h2 className="text-2xl font-semibold">
-                    All Todos
-                </h2>
-            </div>
-
+       
             <TodoFilter />
+            
             <Dialog
-                open={open}
-                onOpenChange={setOpen}
+                open={addOpen}
+                onOpenChange={setAddOpen}
             >
                 <DialogTrigger asChild>
-                    <Button>
+                    <Button className="bg-neutral-50 w-1/4 py-4 mt-3 drop-shadow-md">
                         +
                     </Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-2xl">
                     <AddTodo
-                        open={open}
-                        setOpen={setOpen}
+                        open={addOpen}
+                        setOpen={setAddOpen}
                     />
                 </DialogContent>
             </Dialog>
@@ -64,12 +61,12 @@ const TodoList = observer(() => {
                         title={todo.title}
                         description={todo.description}
                         status={todo.status}
-                        open={open}
-                        setOpen={setOpen}
+                        open={editOpen}
+                        setOpen={setEditOpen}
                     />
                 ))}
             </div>
-            {/* <AddTodo /> */}
+   
         </div>
     )
 })

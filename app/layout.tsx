@@ -6,7 +6,7 @@ import { newTodoStore, TodoStore } from '@/root/index';
 import StoreProvider from '@/root/Provider';
 import './globals.css'
 import type { Metadata } from 'next'
-// import { setupRootStore } from "./mst/setup";
+import { ErrorBoundary } from "react-error-boundary";
 import { Inter } from 'next/font/google'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -26,7 +26,9 @@ export default function RootLayout({
       <body className={inter.className}>
       
        <StoreProvider value={newTodoStore }>
+      
           <main className="container ">{children }</main>
+    
       </StoreProvider>
       </body>
     </html>

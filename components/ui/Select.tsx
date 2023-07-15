@@ -12,8 +12,8 @@ export interface Option {
 
   interface SelectProps {
     options: Option[];
-    selectedOption: Option | null;
-    handelChange: (option: Option | null) => void;
+    selectedOption: any;
+    handelChange: (option: any) => void;
   }
   
 const Selector: FC = () => (

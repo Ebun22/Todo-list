@@ -28,10 +28,10 @@ export const TodoStore = types.model("TodoStore", {
             const todo = self.todos.find((todo) => todo.id === id);
             if(todo){
                 applySnapshot(todo, {
-                    ...todo,
                     title: editedTodo.title,
                     description: editedTodo.description,
-                    status: editedTodo.status
+                    status: editedTodo.status,
+                    id: todo.id 
                 })
             }
 

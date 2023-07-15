@@ -5,19 +5,22 @@ import { types, Instance } from "mobx-state-tree";
 import { observer } from "mobx-react-lite";
 import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
 import { newTodoStore, TodoStore, TodoModel } from '@/root/index';
-// import CheckBox from "./ui/CheckBox";
+import { Dispatch, SetStateAction, useState } from "react";
 import EditTodo from "./EditTodo";
 import { Button } from "./ui/Button";
 import { Badge } from "./ui/Badge";
+import { Dialog, DialogContent, DialogTrigger } from "./ui/Dialog";
 
 interface props {
     id: string;
     title: string;
     description: string;
     status: string;
+    open: boolean;
+    setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const Todo = observer(({ id, title, description, status }: props) => {
+const Todo = observer(({ id, title, description, status, open, setOpen }: props) => {
     // const { newTodoStore } = useStore();
 
     const modifiedDescription =
@@ -39,12 +42,7 @@ const Todo = observer(({ id, title, description, status }: props) => {
                         <h3 className="text-lg font-medium">{title}</h3>
                         <p className="text-sm text-gray-600">{modifiedDescription}</p>
 
-                        {/* <EditTodo
-                                id={id}
-                                title={title}
-                                description = {description}
-                                status = {status}
-                            />
+                        {/* 
                     <Badge>
                         {status}
                     </Badge> */}
@@ -52,11 +50,26 @@ const Todo = observer(({ id, title, description, status }: props) => {
                 </div>
 
                 <div className="w-40  flex flex-row justify-end">
-              
+                    <Dialog
+                        open={open}
+                        onOpenChange={setOpen}
+                    >
+                        <DialogTrigger asChild>
                         <Button className="mr-6"><AiOutlineEdit /></Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-2xl">
+                            <EditTodo
+                                id={id}
+                                title={title}
+                                description={description}
+                                status={status}
+                            />
+                        </DialogContent>
+                    </Dialog>
+                 
 
-                        <Button  ><AiOutlineDelete className="text-rose-600" /></Button>
-               
+                    <Button><AiOutlineDelete className="text-rose-600" /></Button>
+
                 </div>
             </div>
         </>

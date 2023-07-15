@@ -15,7 +15,7 @@ const TodoList = observer(() => {
     const [open, setOpen] = useState(false);
 
     const showAdd = () => {
-        setOpen(!open)
+        setOpen(true)
     }
     return (
         <div className="flex flex-col sm:flex-col gap-4 w-3/4 sm:items-center sm:justify-between mb-8 sm:mb-14">
@@ -31,10 +31,7 @@ const TodoList = observer(() => {
             onOpenChange={setOpen}
           >
             <DialogTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-              >
+              <Button>
                 +
               </Button>
             </DialogTrigger>
@@ -45,9 +42,7 @@ const TodoList = observer(() => {
             />
             </DialogContent>
           </Dialog>
-            <div>
-                
-            </div>
+         
             <div className="flex flex-col gap-2 px-4 py-5 w-3/4 max-h-[600px] overflow-auto">
                 {AllTodos.map((todo: any) => (
                     <Todo
@@ -56,6 +51,8 @@ const TodoList = observer(() => {
                         title={todo.title}
                         description={todo.description}
                         status={todo.status}
+                        open={open}
+                        setOpen={setOpen}
                     />
                 ))}
             </div>

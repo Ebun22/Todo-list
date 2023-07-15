@@ -44,7 +44,8 @@ const AddTodo = observer(({ open, setOpen }: AddProps) => {
         };
 
         newTodoStore.addTodo(newTodo)
-
+      
+        setOpen(!open);
         console.log(newTodoStore)
     }
 

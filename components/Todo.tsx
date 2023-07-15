@@ -63,6 +63,8 @@ const Todo = observer(({ id, title, description, status, open, setOpen }: props)
                                 title={title}
                                 description={description}
                                 status={status}
+                                open={open}
+                                setOpen={setOpen}
                             />
                         </DialogContent>
                     </Dialog>

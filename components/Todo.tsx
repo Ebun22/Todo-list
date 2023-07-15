@@ -1,7 +1,7 @@
 "use client";
 
 import { useStore } from "@/root/Provider";
-import { types, Instance } from "mobx-state-tree";
+import {types, Instance, SnapshotIn, onSnapshot, destroy, applySnapshot, getSnapshot } from "mobx-state-tree";
 import { observer } from "mobx-react-lite";
 import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
 import { newTodoStore, TodoStore, TodoModel } from '@/root/index';
@@ -22,7 +22,28 @@ interface props {
 
 const Todo = observer(({ id, title, description, status, open, setOpen }: props) => {
     // const { newTodoStore } = useStore();
+    const [Id, setId] = useState<string>(id)
+    const [newTitle, setNewTitle] = useState<string>(title);
+    const [newDescription, setNewDescription] = useState<string>(description);
+    const [newStatus, setNewStatus] = useState<string>(status);
+    
+ const handleEdit = () => {
+            console.log(id)
+            const current = getSnapshot(newTodoStore)
+            const todo: any = current.todos.find((todo) => todo.id === id);
+            console.log(todo)
+           setNewTitle(todo.title)
+           setNewDescription(todo.descriptione)
+           setNewStatus(todo.status)
 
+           if(typeof window !== "undefined"){
+                localStorage.setItem("editedTodo", JSON.stringify(todo))
+            }
+        }
+        
+            console.log(newTitle)
+
+    console.log(title)
     const modifiedDescription =
         description.charAt(0).toUpperCase() +
         description.slice(1).slice(0, 100) +
@@ -55,14 +76,14 @@ const Todo = observer(({ id, title, description, status, open, setOpen }: props)
                         onOpenChange={setOpen}
                     >
                         <DialogTrigger asChild>
-                        <Button className="mr-6"><AiOutlineEdit /></Button>
+                        <Button onClick={handleEdit} className="mr-6"><AiOutlineEdit /></Button>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-2xl">
                             <EditTodo
-                                id={id}
-                                title={title}
-                                description={description}
-                                status={status}
+                                id={Id}
+                                title={newTitle}
+                                description={newDescription}
+                                status={newStatus}
                                 open={open}
                                 setOpen={setOpen}
                             />

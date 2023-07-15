@@ -26,12 +26,13 @@ export const TodoStore = types.model("TodoStore", {
         editTodo(id: string, editedTodo: {title: string; description: string; status: string }){
            
             const todo = self.todos.find((todo) => todo.id === id);
+            console.log(todo)
             if(todo){
                 applySnapshot(todo, {
                     title: editedTodo.title,
                     description: editedTodo.description,
                     status: editedTodo.status,
-                    id: todo.id 
+                    id: id
                 })
             }
 

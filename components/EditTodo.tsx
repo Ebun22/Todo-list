@@ -1,6 +1,7 @@
 "use client";
 import { AddTodo, Todo, TodoFilter } from "@/components"
 import { useStore } from "@/root/Provider";
+// import { newTodoStore, TodoStore } from '@/root/index'
 import { types, Instance } from "mobx-state-tree";
 import { observer } from "mobx-react-lite";
 import { newTodoStore, TodoStore, TodoModel } from '@/root/index';
@@ -31,9 +32,22 @@ const options: Option[] = [
 const EditTodo = observer(({id, title, description, status, open, setOpen }: editProps) => {
     // // const { newTodoStore } = useStore();
     // let filteredTodos: Array<Instance<typeof TodoModel>> = newTodoStore.todos;
-    const [newTitle, setNewTitle] = useState<string>(title);
-    const [newDescription, setNewDescription] = useState<string>(description);
-    const [newStatus, setNewStatus] = useState<string>(status);
+    let editedTodo
+    if(typeof window !== "undefined"){
+        const response: any = localStorage.getItem("editedTodo");
+        if(response){
+            try{
+              editedTodo = JSON.parse(response)
+            } catch (error) {
+                console.log("couldn't parse from localStorage: ", error)
+            }
+        }
+    }
+    console.log("40: ", id)
+    const [newTitle, setNewTitle] = useState<string>(editedTodo.title);
+    const [newDescription, setNewDescription] = useState<string>(editedTodo.description);
+    const [newStatus, setNewStatus] = useState<string>(editedTodo.status);
+    const [Id, setId] = useState<string>(editedTodo.id);
     const [errMsg, setErrMsg] = useState<string>();
 
     const [isClient, setIsClient] = useState(false)
@@ -44,15 +58,15 @@ const EditTodo = observer(({id, title, description, status, open, setOpen }: edi
         e.preventDefault();
 
         const newTodo = {
-            id: Date.now().toString(),
-            title,
-            description,
-            status,
+            id: Id,
+            title: newTitle,
+            description: newDescription,
+            status: newStatus,
         };
 
-        newTodoStore.editTodo(id, newTodo)
+        newTodoStore.editTodo(Id, newTodo)
         setOpen(!open);
-        console.log(newTodoStore)
+        console.log("id in edit finction: ", Id)
     }    
 
     const handleTitle = (e: any) => {

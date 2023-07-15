@@ -9,8 +9,6 @@ const Home = async () => {
       </h1>
 
       <div className="grid place-items-center">
-          
-
           <TodoList />
       </div>
    </div>

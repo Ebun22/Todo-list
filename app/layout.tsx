@@ -26,7 +26,7 @@ export default function RootLayout({
       <body className={inter.className}>
       
        <StoreProvider value={newTodoStore }>
-          <main className="container">{children }</main>
+          <main className="container ">{children }</main>
       </StoreProvider>
       </body>
     </html>

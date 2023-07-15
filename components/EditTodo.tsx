@@ -30,8 +30,7 @@ const options: Option[] = [
 ];
 
 const EditTodo = observer(({id, title, description, status, open, setOpen }: editProps) => {
-    // // const { newTodoStore } = useStore();
-    // let filteredTodos: Array<Instance<typeof TodoModel>> = newTodoStore.todos;
+  
     let editedTodo
     if(typeof window !== "undefined"){
         const response: any = localStorage.getItem("editedTodo");

@@ -7,11 +7,24 @@ import { observer } from "mobx-react-lite";
 import { newTodoStore, TodoStore, TodoModel } from '@/root/index';
 import { Button } from "./ui/Button";
 import { Dialog, DialogContent, DialogTrigger } from "./ui/Dialog";
+import { useSearchParams } from "next/navigation";
 
 const TodoList = observer(() => {
-    // const { newTodoStore } = useStore();
+
+    const searchParams = useSearchParams();
+    const filter = searchParams.get("todo");
+
     let AllTodos: Array<Instance<typeof TodoModel>> = newTodoStore.todos;
-    
+
+    if (filter === "Pending") {
+        AllTodos = newTodoStore.todos.filter(todo => todo.status === "pending")
+    } else if (filter === "in_progress") {
+        AllTodos = newTodoStore.todos.filter(todo => todo.status === "in_progress")
+    } else if (filter === "completed") {
+        AllTodos = newTodoStore.todos.filter(todo => todo.status === "completed")
+    }
+
+
     const [open, setOpen] = useState(false);
 
     const showAdd = () => {
@@ -25,24 +38,24 @@ const TodoList = observer(() => {
                 </h2>
             </div>
 
-            {/* <TodoFilter /> */}
+            <TodoFilter />
             <Dialog
-            open={open}
-            onOpenChange={setOpen}
-          >
-            <DialogTrigger asChild>
-              <Button>
-                +
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-2xl">
-            <AddTodo 
-              open={open}
-              setOpen={setOpen}
-            />
-            </DialogContent>
-          </Dialog>
-         
+                open={open}
+                onOpenChange={setOpen}
+            >
+                <DialogTrigger asChild>
+                    <Button>
+                        +
+                    </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-2xl">
+                    <AddTodo
+                        open={open}
+                        setOpen={setOpen}
+                    />
+                </DialogContent>
+            </Dialog>
+
             <div className="flex flex-col gap-2 px-4 py-5 w-3/4 max-h-[600px] overflow-auto">
                 {AllTodos.map((todo: any) => (
                     <Todo
